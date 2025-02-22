@@ -1,16 +1,20 @@
 <template>
-  <div class="app">
-    <nav>
-      <router-link to="/">Home</router-link>
-    </nav>
-    <router-view></router-view>
-  </div>
+  <component :is="layout">
+    <router-view />
+  </component>
 </template>
 
-<style>
-.app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+<script>
+import AppLayout from '@/layouts/AppLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+import EmptyLayout from '@/layouts/EmptyLayout.vue'
+
+export default {
+  computed: {
+    layout() {
+      const layout = this.$route.meta.layout || 'default'
+      return () => import(`@/layouts/${layout}Layout.vue`)
+    }
+  }
 }
-</style>
+</script>
